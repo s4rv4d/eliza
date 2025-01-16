@@ -6,3 +6,10 @@
 .env*
 /data
 /generatedImages
+!getJobsProvider.ts
+!getBaseDocProvider.ts
+!getOnchainKitProvider.ts
+!getCDPProvider.ts
+!getEcosystemProvider.ts
+!getNotablePeopleProvider.ts
+!getTutorialsProvider.ts
