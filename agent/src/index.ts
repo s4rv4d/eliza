@@ -104,6 +104,13 @@ import net from "net";
 import path from "path";
 import { fileURLToPath } from "url";
 import yargs from "yargs";
+import { jobsProvider } from "./providers/getJobsProvider.ts";
+import { baseDocsProvider } from "./providers/getBaseDocProvider.ts";
+import { ockProvider } from "./providers/getOnchainKitProvider.ts";
+import { baseCDPProvider } from "./providers/getCDPProvider.ts";
+import { appsProvider } from "./providers/getEcosystemProvider.ts";
+import { notablePeopleProvider } from "./providers/getNotablePeopleProvider.ts";
+import { tutorialsProvider } from "./providers/getTutorialsProvider.ts";
 
 const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
 const __dirname = path.dirname(__filename); // get the name of the directory
@@ -825,7 +832,7 @@ export async function createAgent(
             getSecret(character, "ABSTRACT_PRIVATE_KEY")
                 ? abstractPlugin
                 : null,
-            getSecret(character, "B2_PRIVATE_KEY") ? b2Plugin: null,
+            getSecret(character, "B2_PRIVATE_KEY") ? b2Plugin : null,
             getSecret(character, "BINANCE_API_KEY") &&
             getSecret(character, "BINANCE_SECRET_KEY")
                 ? binancePlugin
@@ -898,7 +905,15 @@ export async function createAgent(
                 ? createNFTCollectionsPlugin()
                 : null,
         ].filter(Boolean),
-        providers: [],
+        providers: [
+            jobsProvider,
+            baseDocsProvider,
+            ockProvider,
+            baseCDPProvider,
+            appsProvider,
+            notablePeopleProvider,
+            tutorialsProvider,
+        ],
         actions: [],
         services: [],
         managers: [],
