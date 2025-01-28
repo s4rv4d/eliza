@@ -130,7 +130,6 @@ import net from "net";
 import path from "path";
 import { fileURLToPath } from "url";
 import yargs from "yargs";
-<<<<<<< HEAD
 import { jobsProvider } from "./providers/getJobsProvider.ts";
 import { baseDocsProvider } from "./providers/getBaseDocProvider.ts";
 import { ockProvider } from "./providers/getOnchainKitProvider.ts";
@@ -138,11 +137,6 @@ import { baseCDPProvider } from "./providers/getCDPProvider.ts";
 import { appsProvider } from "./providers/getEcosystemProvider.ts";
 import { notablePeopleProvider } from "./providers/getNotablePeopleProvider.ts";
 import { tutorialsProvider } from "./providers/getTutorialsProvider.ts";
-=======
-import { emailPlugin } from "@elizaos/plugin-email";
-import { sunoPlugin } from "@elizaos/plugin-suno";
-import { udioPlugin } from "@elizaos/plugin-udio";
->>>>>>> c0529a07995f7b06bb1add5a4b837ced1cc64ca3
 
 const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
 const __dirname = path.dirname(__filename); // get the name of the directory
@@ -712,20 +706,21 @@ function initializeDatabase(dataDir: string) {
             dataDir: process.env.PGLITE_DATA_DIR,
         });
         return db;
-    } else if (process.env.QDRANT_URL
-        && process.env.QDRANT_KEY
-        && process.env.QDRANT_PORT
-        && process.env.QDRANT_VECTOR_SIZE
+    } else if (
+        process.env.QDRANT_URL &&
+        process.env.QDRANT_KEY &&
+        process.env.QDRANT_PORT &&
+        process.env.QDRANT_VECTOR_SIZE
     ) {
         elizaLogger.info("Initializing Qdrant adapter...");
         const db = new QdrantDatabaseAdapter(
             process.env.QDRANT_URL,
             process.env.QDRANT_KEY,
             Number(process.env.QDRANT_PORT),
-            Number(process.env.QDRANT_VECTOR_SIZE)
+            Number(process.env.QDRANT_VECTOR_SIZE),
         );
         return db;
-    }else {
+    } else {
         const filePath =
             process.env.SQLITE_FILE ?? path.resolve(dataDir, "db.sqlite");
         elizaLogger.info(`Initializing SQLite database at ${filePath}...`);
@@ -1154,29 +1149,32 @@ export async function createAgent(
             )
                 ? openaiPlugin
                 : null,
-            getSecret(character, "DEVIN_API_TOKEN")
-                ? devinPlugin
-                : null,
+            getSecret(character, "DEVIN_API_TOKEN") ? devinPlugin : null,
             getSecret(character, "INITIA_PRIVATE_KEY") ? initiaPlugin : null,
             getSecret(character, "NVIDIA_NIM_API_KEY") ||
             getSecret(character, "NVIDIA_NGC_API_KEY")
                 ? nvidiaNimPlugin
                 : null,
-            getSecret(character, "INITIA_PRIVATE_KEY") && getSecret(character, "INITIA_NODE_URL") ? initiaPlugin : null,
+            getSecret(character, "INITIA_PRIVATE_KEY") &&
+            getSecret(character, "INITIA_NODE_URL")
+                ? initiaPlugin
+                : null,
             getSecret(character, "BNB_PRIVATE_KEY") ||
             getSecret(character, "BNB_PUBLIC_KEY")?.startsWith("0x")
                 ? bnbPlugin
                 : null,
-            getSecret(character, "EMAIL_INCOMING_USER") && getSecret(character, "EMAIL_INCOMING_PASS") ||
-            getSecret(character, "EMAIL_OUTGOING_USER") && getSecret(character, "EMAIL_OUTGOING_PASS") ?
-            emailPlugin : null,
+            (getSecret(character, "EMAIL_INCOMING_USER") &&
+                getSecret(character, "EMAIL_INCOMING_PASS")) ||
+            (getSecret(character, "EMAIL_OUTGOING_USER") &&
+                getSecret(character, "EMAIL_OUTGOING_PASS"))
+                ? emailPlugin
+                : null,
             getSecret(character, "HYPERBOLIC_API_KEY")
                 ? hyperbolicPlugin
                 : null,
             getSecret(character, "SUNO_API_KEY") ? sunoPlugin : null,
-            getSecret(character, "UDIO_AUTH_TOKEN") ? udioPlugin : null
+            getSecret(character, "UDIO_AUTH_TOKEN") ? udioPlugin : null,
         ].filter(Boolean),
-<<<<<<< HEAD
         providers: [
             jobsProvider,
             baseDocsProvider,
@@ -1188,9 +1186,6 @@ export async function createAgent(
         ],
         actions: [],
         services: [],
-=======
-        providers: [],
->>>>>>> c0529a07995f7b06bb1add5a4b837ced1cc64ca3
         managers: [],
         cacheManager: cache,
         fetch: logFetch,
@@ -1423,12 +1418,12 @@ if (
     parseBooleanFromText(process.env.PREVENT_UNHANDLED_EXIT)
 ) {
     // Handle uncaught exceptions to prevent the process from crashing
-    process.on('uncaughtException', function(err) {
+    process.on("uncaughtException", function (err) {
         console.error("uncaughtException", err);
     });
 
     // Handle unhandled rejections to prevent the process from crashing
-    process.on('unhandledRejection', function(err) {
+    process.on("unhandledRejection", function (err) {
         console.error("unhandledRejection", err);
     });
 }
